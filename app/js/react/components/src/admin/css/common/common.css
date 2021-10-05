@@ -1,0 +1,498 @@
+@font-face{
+    font-family:Roboto;
+    src: url(../../../../../../../../public/fonts/Roboto/Roboto-Light.ttf);
+}
+body{
+    font-family:"Roboto";
+}
+
+.no-margin-padding{
+    margin:0;
+    padding:0;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+    padding:0;
+    margin:0;
+}
+
+.dashboard-content{
+    max-width: 80vw;
+}
+
+p {
+    font-size: 1.1em;
+    font-weight: 300;
+    line-height: 1.7em;
+    color: #999;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+#content{
+    margin-left: 15vw;
+    transition: all 0.3s;
+}
+
+#sidebar.active + #content{
+    margin-left: 7.4vw;
+    transition: all 0.3s;
+}
+
+#sidebar {
+    min-width: 15vw;
+    max-width: 15vw;
+    min-height: 100vh;
+    background: #ffc800;
+    color: #000000;
+    transition: all 0.3s;
+    margin:0;
+    padding:0;
+    box-shadow: 2px 0px 5px #b4b4b4;
+    position:fixed;
+    z-index: 999;
+}
+
+#sidebar .sidebarLogo{
+    width:75%;
+}
+#sidebar .sidebarLogo_small{
+    display:none;
+}
+
+#sidebarCollapse{
+    display: block;
+    margin:auto;
+}
+
+#sidebar .sidebar-header {
+    padding-top:20px;
+    padding-bottom:20px;
+    background: #e4b200;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #e4b200;
+}
+
+#sidebar ul p {
+    color: #000000;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+#sidebar ul li a:hover {
+    color: #e4b200;
+    background: #000000;
+}
+
+#sidebar ul li.active > a, a[aria-expanded="true"] {
+    color: #fff;
+    background: #ffc800;
+}
+
+#sidebar ul li a.active {
+    color: #000;
+    background: #e4b200;
+}
+
+ul ul a {
+    font-size: 0.9em !important;
+    padding-left: 30px !important;
+    background: #6d7fcc;
+}
+
+#sidebar.active {
+    min-width: 7.4vw;
+    max-width: 7.4vw;
+    text-align: center;
+}
+
+#sidebar.active .sidebarLogo{
+    display: none;
+}
+
+#sidebar.active .sidebarLogo_small{
+    display: flex;
+    width: 90%;
+}
+
+/* Toggling the sidebar header content, hide the big heading [h3] and showing the small heading [strong] and vice versa*/
+#sidebar .sidebar-header strong {
+    display: none;
+}
+#sidebar.active .sidebar-header h3 {
+    display: none;
+}
+#sidebar.active .sidebar-header strong {
+    display: block;
+}
+
+#sidebar ul li a {
+    text-align: left;
+}
+
+#sidebar.active ul li a {
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 1em;
+}
+
+#sidebar.active ul li a svg {
+    margin-right:  0;
+    display: block;
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+/* Same dropdown links padding*/
+#sidebar.active ul ul a {
+    padding: 10px !important;
+}
+
+/* Changing the arrow position to bottom center position, 
+   translateX(50%) works with right: 50% 
+   to accurately  center the arrow */
+#sidebar.active .dropdown-toggle::after {
+    top: auto;
+    bottom: 10px;
+    right: 50%;
+    -webkit-transform: translateX(50%);
+    -ms-transform: translateX(50%);
+    transform: translateX(50%);
+}
+
+a[data-toggle="collapse"] {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    display: block;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+}
+
+#sidebar .navText{
+    margin-left:10px;
+}
+
+#sidebar .sidebar-footer{
+    position: absolute;
+    bottom:0px;
+    min-width: 15vw;
+    max-width: 15vw;
+}
+#sidebar.active .sidebar-footer{
+    position: absolute;
+    bottom:0px;
+    min-width: 7.2vw;
+    max-width: 7.2vw;
+}
+
+@media (max-width: 768px) {
+     /* 80px and its content aligned to centre. Pushing it off the screen with the
+       negative left margin
+    */
+    #sidebar.active {
+        min-width: 7.2vw;
+        max-width: 7.2vw;
+        text-align: center;
+        margin-left: 0px !important;
+    }
+
+
+    /* Reappearing the sidebar on toggle button click */
+    #sidebar {
+        margin-left: 0; 
+    }
+
+    /* Toggling the sidebar header content, 
+       hide the big heading [h3] and showing the small heading [strong] and vice versa
+    */
+    #sidebar .sidebar-header strong {
+        display: none;
+    }
+    #sidebar.active .sidebar-header h3 {
+        display: none;
+    }
+    #sidebar.active .sidebar-header strong {
+        display: block;
+    }
+
+    /* Downsize the navigation links font size */
+    #sidebar.active ul li a {
+        padding: 20px 10px;
+        font-size: 0.85em;
+    }
+
+    #sidebar.active ul li a i {
+        margin-right:  0;
+        display: block;
+        font-size: 1.8em;
+        margin-bottom: 5px;
+    }
+
+    /* Adjust the dropdown links padding*/
+    #sidebar.active ul ul a {
+        padding: 10px !important;
+    }
+
+    /* Changing the arrow position to bottom center position, 
+      translateX(50%) works with right: 50% 
+      to accurately  center the arrow */
+    .dropdown-toggle::after {
+        top: auto;
+        bottom: 10px;
+        right: 50%;
+        -webkit-transform: translateX(50%);
+        -ms-transform: translateX(50%);
+        transform: translateX(50%);
+    }
+}
+
+#pageHeader{
+    font-size: xx-large;
+    margin:20px 10px;
+    border-bottom: 1px solid #000;
+    font-weight: bold;
+    padding:5px 0px;
+}
+
+.btnIcon{
+    margin-right:6px;
+}
+
+#pageContent{
+    margin: 20px 10px;
+}
+
+.contentTable{
+    border-radius: 15px;
+    border-collapse: separate;
+    text-align: center;
+    vertical-align:middle;
+    overflow: hidden;
+    border-spacing: 0px;
+}
+
+.contentTable thead{
+    font-weight: bold;
+    text-align: center;
+}
+
+.contentTable td{
+    vertical-align: middle;
+}
+
+.modalHeader{
+    font-weight: bold;
+    background-color: #ffc800;
+    box-shadow:2px 0px 3px #777777;
+}
+
+.contentForm .form-label{
+    color:#000;
+}
+
+#expLogo{
+    max-width: 7.5vw;
+    max-height: 7.5vh;
+}
+
+.alertMessage{
+    margin: 10px 0px 0px 0px
+}
+
+#movieContent{
+    margin:0px 0px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border: 1px solid;
+    border-color:#fff #dee2e6 #dee2e6;
+}
+
+#movieToolbar{
+    margin:20px 10px;
+}
+
+#movieToolbar .card-header{
+    padding: 6px 20px;
+}
+
+.toolbarBtn{
+    max-width: 8vw;
+    min-width: 8vw;
+}
+
+.movieListImg{
+    margin:20px 20px;
+}
+
+.movieListBody{
+    padding: 20px 15px 15px;
+}
+
+.movieListBody .movieItem_sub{
+    color:#000;
+    font-weight: bold;
+    font-size:0.8em;
+}
+
+.movieListBody .movieItem_text{
+    font-size:0.8em;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+#genreContainer{
+    padding:20px 15px;
+}
+
+#genreTable{
+    max-width: 100%;
+    width: 100%;
+}
+
+#genreTable thead th{
+    padding:2.5px;
+    vertical-align: middle;
+}
+
+#moviesTable{
+    height: 100%;
+    margin:16px 16px;
+}
+
+#moviesTable tr td{
+    padding:5px 20px;
+}
+
+#none-found-msg td{
+    text-align: center;
+    vertical-align:middle;
+    color:#494949;
+}
+
+#loading{
+    padding:10px;
+    text-align: center;
+    width:10vw;
+}
+
+#filterBar{
+    margin:10px 20px 0px;
+}
+
+.noRightRadius *{
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.noRadius *{
+    border-radius: 0;
+}
+
+.noLeftRadius{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.filterDropdown > button{
+    padding-right:50px
+}
+
+.detail_img{
+    opacity: 1;
+    display: block;
+    transition: .5s ease;
+}
+
+.detail_subheading{
+    color:black;
+    margin-bottom:4px;
+    font-weight: bold;
+    font-size:1em;
+}
+
+.detail_text{
+    margin-bottom:5px;
+    font-size:0.9em;
+}
+
+#detail_img_container{
+    position: relative;
+    width: 50%;
+    margin:20px;
+}
+
+#detail_img_container:hover .detail_img{
+    opacity: 0.3;
+}
+
+#detail_img_container:hover{
+    background-color: rgb(43, 43, 43);;
+}
+
+#detail_img_container:hover .hoverButton{
+    opacity: 1;
+}
+
+.hoverButton{
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+#detail_sentiment_container{
+    height:100%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.video-responsive {
+    overflow: hidden;
+    padding-bottom: 56.25%;
+    position: relative;
+    height: 0;
+}
+  
+.video-responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+#hall_table_container{
+    padding:20px;
+}
+
+.snack_img{
+    max-width: 8vw;
+    max-height: 15vh;
+}
+
+.banner_img{
+    max-width: 15vw;
+    max-height: 15vh;
+}
