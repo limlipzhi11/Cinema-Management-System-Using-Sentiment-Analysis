@@ -35,57 +35,57 @@ def analyze_tweets(keyword,numTweets,api,movie_id,startFrom):
     else:
         tweets = tweepy.Cursor(api.search, q=keyword, lang="en", count=numTweets).items(numTweets)
 
-    tweet_list=[]
+    tw_list=[]
     since_list=[]
     db=MySQLdb.connect("localhost", "root", "", "cinema_system")
     cursor=db.cursor()
 
     for tweet in tweets:
         try:
-            tweet_list.append(tweet.text)
+            tw_list.append(tweet.text)
             since_list.append(tweet.id)
         except Exception as e:
             print(e)
 
-    tweet_list = pandas.DataFrame(tweet_list)
-    tweet_list.drop_duplicates(inplace=True)
-    clean_tweets = pandas.DataFrame(tweet_list)
-    clean_tweets["text"]=clean_tweets[0]
+    tw_list = pandas.DataFrame(tw_list)
+    tw_list.drop_duplicates(inplace=True)
+    clean_tw_list = pandas.DataFrame(tw_list)
+    clean_tw_list["text"]=clean_tw_list[0]
     retweet_remove = lambda x: re.sub('RT @\w+: ', " ", x)
     regex = lambda x: re.sub("(@[A-Za-z0–9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", x)
-    clean_tweets["text"] = clean_tweets.text.map(retweet_remove).map(regex)
-    clean_tweets["text"] = clean_tweets.text.str.lower()
+    clean_tw_list["text"] = clean_tw_list.text.map(retweet_remove).map(regex)
+    clean_tw_list["text"] = clean_tw_list.text.str.lower()
 
-    clean_tweets["cleaned"] = clean_tweets["text"].apply(lambda x: cleanText(x))
+    clean_tw_list["cleaned"] = clean_tw_list["text"].apply(lambda x: cleanText(x))
 
-    #print(clean_tweets['Cleaned'])
+    #print(clean_tw_list['Cleaned'])
 
-    clean_tweets[['polarity', 'subjectivity']] = clean_tweets["cleaned"].apply(lambda Text:pandas.Series(TextBlob(Text).sentiment))
-    for index,row in clean_tweets["cleaned"].iteritems():
+    clean_tw_list[['polarity', 'subjectivity']] = clean_tw_list["cleaned"].apply(lambda Text:pandas.Series(TextBlob(Text).sentiment))
+    for index,row in clean_tw_list["cleaned"].iteritems():
         polarity_score = SentimentIntensityAnalyzer().polarity_scores(row)
         negative = polarity_score['neg']
         positive = polarity_score['pos']
         compound = polarity_score['compound']
         if negative>positive:
-            clean_tweets.loc[index,'sentiment']="Negative"
+            clean_tw_list.loc[index,'sentiment']="Negative"
         elif positive>negative:
-            clean_tweets.loc[index,"sentiment"]="Positive"
-        clean_tweets.loc[index,"neg"]=negative
-        clean_tweets.loc[index, "pos"] = positive
-        clean_tweets.loc[index, "compound"] = compound
+            clean_tw_list.loc[index,"sentiment"]="Positive"
+        clean_tw_list.loc[index,"neg"]=negative
+        clean_tw_list.loc[index, "pos"] = positive
+        clean_tw_list.loc[index, "compound"] = compound
 
-    posTweet_list=clean_tweets[clean_tweets["sentiment"]=="Positive"]
-    negTweet_list=clean_tweets[clean_tweets['sentiment']=="Negative"]
-    #print(countColumnNum(clean_tweets,'sentiment'))
+    pos_tw_list=clean_tw_list[clean_tw_list["sentiment"]=="Positive"]
+    neg_tw_list=clean_tw_list[clean_tw_list['sentiment']=="Negative"]
+    #print(countColumnNum(clean_tw_list,'sentiment'))
     totalCompound=0;
 
-    avgCompound=1/(1+math.exp(-(clean_tweets['compound'].sum()/clean_tweets.shape[0])))
-    totalpos=posTweet_list.shape[0]
-    totalneg=negTweet_list.shape[0]
+    avgCompound=1/(1+math.exp(-(clean_tw_list['compound'].sum()/clean_tw_list.shape[0])))
+    num_pos=pos_tw_list.shape[0]
+    num_neg=neg_tw_list.shape[0]
     sinceID=since_list[len(since_list)-1]
-    totalTweets=clean_tweets.shape[0]
+    totalTweets=clean_tw_list.shape[0]
     #print(avgCompound)
-    sqlquery="insert into movie_sentiment(movie_id,no_pos,no_neg,avg_comp,since_id) values({},{},{},{},{})".format(movie_id,totalpos,totalneg,avgCompound,sinceID)
+    sqlquery="insert into movie_sentiment(movie_id,no_pos,no_neg,avg_comp,since_id) values({},{},{},{},{})".format(movie_id,num_pos,num_neg,avgCompound,sinceID)
     cursor.execute(sqlquery)
     db.commit()
 
